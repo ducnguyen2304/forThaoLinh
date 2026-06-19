@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quà tặng cho Thảo Linh 💝</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────── */
+:root {
+  --pink:        #F4A4A4;
+  --pink-light:  #FDE8E8;
+  --coral:       #EF6F6F;
+  --gift-card:   #F2D8EC;
+  --placeholder: #D4D4D4;
+  --text:        #2E2E2E;
+  --subtext:     #777;
+  --border:      #E0E0E0;
+  --white:       #FFFFFF;
+}
+
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: translateY(0);    opacity: .4; }
+  40%           { transform: translateY(-8px); opacity: 1;  }
+}
+.dot-bounce {
+  display: inline-block;
+  animation: dotBounce .9s ease-in-out infinite;
+  line-height: 1;
+}
+
+/* ─── RESET ──────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: var(--white); }
+body {
+  font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
+  color: var(--text);
+}
+
+/* ─── APP SHELL ──────────────────────────────────── */
+#app { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+
+/* ─── SCREENS ────────────────────────────────────── */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vh, 48px) clamp(16px, 5vw, 60px);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.screen.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* slide-in / slide-out helper classes (added by JS) */
+@keyframes slideInRight  { from { opacity:0; transform: translateX( 48px); } to { opacity:1; transform: translateX(0); } }
+@keyframes slideInLeft   { from { opacity:0; transform: translateX(-48px); } to { opacity:1; transform: translateX(0); } }
+@keyframes slideOutLeft  { from { opacity:1; transform: translateX(0); }     to { opacity:0; transform: translateX(-48px); } }
+@keyframes slideOutRight { from { opacity:1; transform: translateX(0); }     to { opacity:0; transform: translateX( 48px); } }
+
+.anim-in-right  { animation: slideInRight  .45s cubic-bezier(.25,.8,.25,1) forwards; }
+.anim-in-left   { animation: slideInLeft   .45s cubic-bezier(.25,.8,.25,1) forwards; }
+.anim-out-left  { animation: slideOutLeft  .35s cubic-bezier(.25,.8,.25,1) forwards; pointer-events:none; }
+.anim-out-right { animation: slideOutRight .35s cubic-bezier(.25,.8,.25,1) forwards; pointer-events:none; }
+
+/* ─── SHARED ATOMS ───────────────────────────────── */
+/* Image placeholder */
+.ph {
+  background: var(--placeholder);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: clamp(10px, 1.1vw, 13px);
+  letter-spacing: .03em;
+  flex-shrink: 0;
+}
+
+/* Pill buttons */
+.btn {
+  border: none;
+  border-radius: 50px;
+  padding: clamp(8px,.9vh,13px) clamp(26px,3.5vw,46px);
+  font-size: clamp(13px,1.3vw,16px);
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter .18s, transform .15s;
+  background: var(--pink);
+  color: var(--text);
+}
+.btn:hover  { filter: brightness(.95); transform: scale(1.03); }
+.btn:active { transform: scale(.97); }
+.btn.ghost  { background: transparent; border: 2px solid var(--pink); }
+.btn.ghost:hover { background: var(--pink-light); }
+
+/* Section title */
+.section-title {
+  color: var(--coral);
+  font-size: clamp(20px,2.6vw,34px);
+  font-weight: 700;
+  margin-bottom: clamp(10px,1.5vh,22px);
+  text-align: center;
+}
+
+/* Nav row (Back / Next pair) */
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: clamp(18px,3vh,40px);
+}
+.nav-row.center { justify-content: center; }
+
+/* ─── FRAME 1 ─ Intro ────────────────────────────── */
+#f1 .ph {
+  width: clamp(260px,42vw,540px);
+  aspect-ratio: 4/3;
+  margin-bottom: clamp(18px,2.5vh,32px);
+}
+#f1 p {
+  font-size: clamp(14px,1.5vw,18px);
+  text-align: center;
+  line-height: 1.65;
+  margin-bottom: clamp(22px,3.2vh,40px);
+}
+
+/* ─── FRAME 2 ─ Question ─────────────────────────── */
+#f2 .ph {
+  width: clamp(260px,42vw,540px);
+  aspect-ratio: 4/3;
+  margin-bottom: clamp(16px,2.5vh,30px);
+}
+#f2 .question {
+  font-size: clamp(14px,1.5vw,18px);
+  text-align: center;
+  line-height: 1.65;
+  margin-bottom: clamp(20px,3vh,38px);
+}
+#f2 .choices {
+  display: flex;
+  gap: clamp(10px,2vw,24px);
+  align-items: flex-start;
+}
+.choice-btn {
+  background: var(--pink-light);
+  border: none;
+  border-radius: 16px;
+  padding: clamp(10px,1.4vh,18px) clamp(16px,2vw,28px);
+  font-size: clamp(12px,1.25vw,15px);
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  line-height: 1.5;
+  text-align: center;
+  max-width: clamp(150px,19vw,230px);
+  transition: background .18s, transform .15s;
+}
+.choice-btn:hover  { background: var(--pink); transform: scale(1.03); }
+.choice-btn:active { transform: scale(.97); }
+
+/* ─── FRAME 3 ─ Gift boxes ───────────────────────── */
+#f3 .ph {
+  width: clamp(260px,42vw,540px);
+  aspect-ratio: 4/3;
+  margin-bottom: clamp(14px,2vh,28px);
+}
+#f3 .tagline {
+  font-size: clamp(13px,1.4vw,17px);
+  margin-bottom: clamp(16px,2.5vh,30px);
+  text-align: center;
+}
+.gift-row {
+  display: flex;
+  gap: clamp(10px,2.2vw,32px);
+  align-items: flex-end;
+  margin-bottom: clamp(8px,1.2vh,14px);
+}
+.gift-card {
+  background: var(--gift-card);
+  border-radius: clamp(12px,1.5vw,20px);
+  padding: clamp(14px,2.2vh,28px);
+  cursor: pointer;
+  transition: transform .22s, box-shadow .22s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.gift-card:hover {
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 10px 28px rgba(239,111,111,.2);
+}
+.gift-card:active { transform: translateY(-2px) scale(1.01); }
+.gift-card svg   { display: block; }
+.gift-card.sm    { padding: clamp(10px,1.6vh,20px); }
+#f3 .hint {
+  font-size: clamp(11px,1.05vw,13px);
+  color: var(--subtext);
+  text-align: center;
+}
+
+/* opened state */
+.gift-card.opened { opacity: .55; }
+.gift-card.opened:hover { transform: none; box-shadow: none; }
+
+/* ─── PHOTOBOOTH STRIP shared ────────────────────── */
+.pb-strip {
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  padding: clamp(6px,.8vw,12px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(4px,.6vw,8px);
+  row-gap: clamp(4px,.6vw,8px);
+  background: #fff;
+  width: clamp(220px, 32vw, 420px);
+}
+
+.strip-cell {
+  display: flex;
+  align-items: stretch;
+  gap: 3px;
+}
+.strip-cell .cell-label {
+  writing-mode: vertical-rl;
+  font-size: clamp(7px,.65vw,9px);
+  color: #aaa;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  user-select: none;
+}
+.strip-cell .cell-label.right { transform: rotate(180deg); }
+.strip-cell .cell-img {
+  flex: 1;
+  background: var(--placeholder);
+  min-height: clamp(52px,7.5vh,82px);
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.strip-cell .cell-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── FRAME 3.1 ─ Memory Storage reveal ─────────── */
+#f31 .desc {
+  font-size: clamp(12px,1.2vw,15px);
+  text-align: center;
+  line-height: 1.65;
+  max-width: clamp(280px,40vw,500px);
+  margin-bottom: clamp(14px,2vh,24px);
+  color: var(--subtext);
+}
+
+/* Photobooth preview strip (f31) */
+.pbs-wrap {
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  padding: clamp(8px,1vw,14px);
+  background: #fff;
+  display: flex;
+  gap: 0;
+  width: clamp(240px,36vw,460px);
+}
+.pbs-strip-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5px,.7vh,8px);
+  flex: 1;
+  min-width: 0;
+}
+.pbs-divider {
+  width: 1px;
+  background: #ccc;
+  margin: 0 clamp(6px,.8vw,10px);
+  flex-shrink: 0;
+  align-self: stretch;
+}
+.pbs-cell {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.pbs-icon {
+  width: clamp(10px,1vw,14px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  font-size: clamp(7px,.65vw,9px);
+  color: #333;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.pbs-ph {
+  flex: 1;
+  background: var(--placeholder);
+  min-height: clamp(52px,7.5vh,82px);
+  border-radius: 2px;
+}
+.pbs-lbl {
+  writing-mode: vertical-rl;
+  font-size: clamp(6px,.58vw,8px);
+  color: #555;
+  width: clamp(10px,1vw,13px);
+  text-align: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transform: rotate(180deg);
+  letter-spacing: .02em;
+}
+
+/* ─── FRAME 3.2 ─ Camera ─────────────────────────── */
+#f32 .camera-wrap {
+  display: flex;
+  gap: clamp(14px,2.5vw,32px);
+  align-items: center;
+  margin-bottom: clamp(10px,1.5vh,18px);
+}
+#f32 .timer-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px,1vh,10px);
+}
+.timer-pill {
+  background: #EBEBEB;
+  border: none;
+  border-radius: 50px;
+  padding: clamp(5px,.7vh,9px) clamp(14px,1.6vw,22px);
+  font-size: clamp(12px,1.15vw,14px);
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s;
+  color: var(--text);
+}
+.timer-pill.active, .timer-pill:hover { background: var(--pink); }
+.timer-pill svg { opacity: .6; }
+
+#f32 .cam-view {
+  width: clamp(220px,34vw,460px);
+  aspect-ratio: 4/3;
+  background: var(--placeholder);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+#f32 .cam-view video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* mirror */
+}
+#f32 .cam-view .cam-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(52px,7vw,90px);
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,.35);
+  background: rgba(0,0,0,.12);
+  opacity: 0;
+  transition: opacity .25s;
+  pointer-events: none;
+}
+#f32 .cam-view .cam-overlay.show { opacity: 1; }
+#f32 .cam-view .no-cam-msg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(12px,1.2vw,14px);
+  color: #aaa;
+  text-align: center;
+  padding: 16px;
+}
+#f32 .dots {
+  display: flex;
+  gap: 7px;
+  margin-bottom: clamp(8px,1.2vh,14px);
+}
+.dot {
+  width: clamp(7px,.8vw,11px);
+  height: clamp(7px,.8vw,11px);
+  border-radius: 50%;
+  background: #D8D8D8;
+  transition: background .3s;
+}
+.dot.on { background: var(--coral); }
+#f32 .capture-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: clamp(8px,1.2vh,14px);
+}
+#f32 .retake-row { display: flex; gap: clamp(10px,1.5vw,20px); }
+
+/* ─── FRAME 3.3 ─ Photobooth result ─────────────── */
+#f33 .save-note {
+  font-size: clamp(11px,1.05vw,13px);
+  color: var(--subtext);
+  margin-top: clamp(6px,1vh,10px);
+  text-align: center;
+}
+
+/* ─── FRAME 4.1 ─ Playlist ───────────────────────── */
+#f41 .subtitle {
+  font-size: clamp(11px,1.1vw,14px);
+  color: var(--coral);
+  margin-bottom: clamp(16px,2.5vh,30px);
+  text-align: center;
+}
+#f41 .player-layout {
+  display: flex;
+  gap: clamp(20px,4.5vw,64px);
+  align-items: flex-start;
+  width: clamp(440px,68vw,840px);
+  margin-bottom: clamp(20px,3vh,38px);
+}
+#f41 .player-left {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px,1.1vh,14px);
+  min-width: clamp(160px,22vw,280px);
+  flex: 0 0 auto;
+}
+.album-art {
+  width: clamp(90px,13vw,170px);
+  height: clamp(90px,13vw,170px);
+  border: 2px solid var(--pink);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+  flex-shrink: 0;
+}
+.album-art svg { width: 52%; height: 52%; }
+#f41 .song-info .song-title-now {
+  font-size: clamp(14px,1.5vw,18px);
+  font-weight: 700;
+}
+#f41 .song-info .singer-now {
+  font-size: clamp(11px,1.05vw,13px);
+  color: var(--subtext);
+  margin-top: 2px;
+}
+#f41 .prog-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#f41 .prog-wrap span {
+  font-size: clamp(10px,.9vw,12px);
+  color: #bbb;
+  white-space: nowrap;
+}
+.prog-bar {
+  flex: 1;
+  height: 4px;
+  background: #EBEBEB;
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+.prog-fill {
+  height: 100%;
+  background: var(--coral);
+  border-radius: 2px;
+  width: 0%;
+  transition: width .12s linear;
+}
+.prog-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--coral);
+  left: 0%;
+  transition: left .12s linear;
+}
+#f41 .ctrl-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px,2.5vw,30px);
+}
+.ctrl-btn {
+  background: none; border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .15s;
+}
+.ctrl-btn:hover { transform: scale(1.12); }
+.ctrl-btn.play {
+  background: var(--pink-light);
+  width: clamp(36px,4vw,52px);
+  height: clamp(36px,4vw,52px);
+  border-radius: 50%;
+}
+
+.playlist-table { flex: 1; }
+.pl-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: clamp(11px,1vw,12px);
+  color: #bbb;
+  padding-bottom: clamp(6px,1vh,10px);
+  border-bottom: 1px solid #eee;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.pl-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(6px,.9vh,10px) 6px;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background .14s;
+}
+.pl-row:hover { background: #FFF0F0; }
+.pl-row.playing .pl-title { color: var(--coral); font-weight: 700; }
+.pl-title { font-size: clamp(12px,1.2vw,14px); font-weight: 600; }
+.pl-singer { font-size: clamp(11px,1vw,13px); color: var(--subtext); }
+
+/* ─── FRAME 5.1 ─ Write feelings ─────────────────── */
+#f51 .diary-box {
+  width: clamp(260px,38vw,480px);
+  border: 2px solid var(--pink);
+  border-radius: 6px;
+  padding: clamp(14px,2vh,24px) clamp(16px,2vw,28px);
+  position: relative;
+  background: #fff;
+  margin-bottom: clamp(10px,1.5vh,18px);
+}
+#f51 .diary-lines {
+  position: absolute;
+  inset: 0;
+  padding: inherit;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+#f51 .diary-line {
+  flex: 1;
+  border-bottom: 1px solid #F0D8D8;
+}
+#f51 textarea {
+  width: 100%;
+  min-height: clamp(170px,26vh,310px);
+  border: none; outline: none; resize: none;
+  font-family: inherit;
+  font-size: clamp(13px,1.3vw,16px);
+  line-height: 2.1;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+  color: var(--text);
+}
+#f51 .hint {
+  font-size: clamp(12px,1.1vw,14px);
+  color: var(--subtext);
+  text-align: center;
+  margin-bottom: clamp(16px,2.5vh,30px);
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ══════════════════ FRAME 1 ── Intro ══════════════════ -->
+<section class="screen active" id="f1">
+  <img src="coolcat.gif" alt="cool cat" style="width:clamp(260px,42vw,540px);aspect-ratio:4/3;object-fit:contain;margin-bottom:clamp(18px,2.5vh,32px);border-radius:10px;">
+  <p style="font-size:clamp(14px,1.5vw,18px);text-align:center;line-height:1.65;margin-bottom:clamp(22px,3.2vh,40px);">
+    Đây là món quà mà coder vjppr0 nhất Việt Nam<br>muốn tặng cho Thảo Linh &lt;3
+  </p>
+  <button class="btn" onclick="goto('f2','forward')">Next</button>
+</section>
+
+<!-- ══════════════════ FRAME 2 ── Question ═══════════════ -->
+<section class="screen" id="f2">
+  <img src="lilduckie.jpg" alt="lil duckie" style="width:clamp(260px,42vw,540px);aspect-ratio:4/3;object-fit:contain;margin-bottom:clamp(16px,2.5vh,30px);border-radius:10px;">
+  <p class="question" style="font-size:clamp(14px,1.5vw,18px);text-align:center;line-height:1.65;margin-bottom:clamp(20px,3vh,38px);">
+    Trước khi nhận quà thì bạn thấy anh Đức là người như nào ?
+  </p>
+  <div class="choices" style="display:flex;gap:clamp(12px,2vw,28px);align-items:center;">
+    <button class="choice-btn" onclick="goto('f3','forward')">Quá ngầu lời, ngầu tới mức không chịu nổi lunn</button>
+    <!-- invisible anchor keeps the original layout space -->
+    <span id="runAnchor" class="choice-btn" style="visibility:hidden;pointer-events:none;">Cũng tầm tạm thui à</span>
+    <!-- the actual fleeing button, fixed over the anchor -->
+    <button class="choice-btn" id="runBtn" style="position:fixed;transition:left .15s ease,top .15s ease;">Cũng tầm tạm thui à</button>
+  </div>
+</section>
+
+<!-- ══════════════════ FRAME 3 ── Gift boxes ═════════════ -->
+<section class="screen" id="f3">
+  <img src="coolcat1.gif" alt="cool cat" style="width:clamp(260px,42vw,540px);aspect-ratio:4/3;object-fit:contain;margin-bottom:clamp(14px,2vh,28px);border-radius:10px;">
+  <p class="tagline">Aissssi mình biết bạn cũng thấy như vậy mà</p>
+  <div class="gift-row">
+    <!-- Box 1 → Memory Storage -->
+    <div class="gift-card" id="gc1" onclick="openGift(1)">
+      <svg width="clamp(64px,9vw,118px)" height="clamp(64px,9vw,118px)" viewBox="0 0 100 108" xmlns="http://www.w3.org/2000/svg">
+        <rect x="13" y="51" width="74" height="50" rx="5" fill="#F4907A"/>
+        <rect x="43" y="51" width="14" height="50" fill="rgba(255,190,170,0.55)"/>
+        <rect x="13" y="67" width="74" height="9" fill="rgba(255,190,170,0.35)"/>
+        <rect x="8" y="38" width="84" height="16" rx="5" fill="#E87060"/>
+        <rect x="43" y="38" width="14" height="16" fill="rgba(255,190,170,0.55)"/>
+        <ellipse cx="37" cy="32" rx="16" ry="9.5" fill="#6B1820" transform="rotate(-20 37 32)"/>
+        <ellipse cx="63" cy="32" rx="16" ry="9.5" fill="#6B1820" transform="rotate(20 63 32)"/>
+        <ellipse cx="50" cy="34" rx="9" ry="8" fill="#8B2230"/>
+      </svg>
+    </div>
+    <!-- Box 2 → Playlist (slightly larger) -->
+    <div class="gift-card" id="gc2" onclick="openGift(2)" style="padding:clamp(18px,2.8vh,36px)">
+      <svg width="clamp(74px,10.5vw,136px)" height="clamp(74px,10.5vw,136px)" viewBox="0 0 100 108" xmlns="http://www.w3.org/2000/svg">
+        <rect x="13" y="51" width="74" height="50" rx="5" fill="#F4907A"/>
+        <rect x="43" y="51" width="14" height="50" fill="rgba(255,190,170,0.55)"/>
+        <rect x="13" y="67" width="74" height="9" fill="rgba(255,190,170,0.35)"/>
+        <rect x="8" y="38" width="84" height="16" rx="5" fill="#E87060"/>
+        <rect x="43" y="38" width="14" height="16" fill="rgba(255,190,170,0.55)"/>
+        <ellipse cx="37" cy="32" rx="16" ry="9.5" fill="#6B1820" transform="rotate(-20 37 32)"/>
+        <ellipse cx="63" cy="32" rx="16" ry="9.5" fill="#6B1820" transform="rotate(20 63 32)"/>
+        <ellipse cx="50" cy="34" rx="9" ry="8" fill="#8B2230"/>
+      </svg>
+    </div>
+    <!-- Box 3 → Write feelings (slightly smaller) -->
+    <div class="gift-card sm" id="gc3" onclick="openGift(3)">
+      <svg width="clamp(56px,7.5vw,100px)" height="clamp(56px,7.5vw,100px)" viewBox="0 0 100 108" xmlns="http://www.w3.org/2000/svg">
+        <rect x="13" y="51" width="74" height="50" rx="5" fill="#F4907A"/>
+        <rect x="43" y="51" width="14" height="50" fill="rgba(255,190,170,0.55)"/>
+        <rect x="13" y="67" width="74" height="9" fill="rgba(255,190,170,0.35)"/>
+        <rect x="8" y="38" width="84" height="16" rx="5" fill="#E87060"/>
+        <rect x="43" y="38" width="14" height="16" fill="rgba(255,190,170,0.55)"/>
+        <ellipse cx="37" cy="32" rx="16" ry="9.5" fill="#6B1820" transform="rotate(-20 37 32)"/>
+        <ellipse cx="63" cy="32" rx="16" ry="9.5" fill="#6B1820" transform="rotate(20 63 32)"/>
+        <ellipse cx="50" cy="34" rx="9" ry="8" fill="#8B2230"/>
+      </svg>
+    </div>
+  </div>
+  <p class="hint">(Click vào mỗi hộp để nhận quà)</p>
+</section>
+
+<!-- ══════════════════ FRAME 3.1 ── Memory Storage reveal ═ -->
+<section class="screen" id="f31">
+  <h2 class="section-title">Memory Storage</h2>
+  <!-- Photobooth strip: two columns separated by a center divider -->
+  <div class="pbs-wrap">
+    <!-- LEFT strip -->
+    <div class="pbs-strip-col">
+      <!-- Row 1: no icon -->
+      <div class="pbs-cell">
+        <div class="pbs-icon"></div>
+        <div class="pbs-ph"></div>
+        <div class="pbs-lbl">Duong de tho</div>
+      </div>
+      <!-- Row 2: single ▲ -->
+      <div class="pbs-cell">
+        <div class="pbs-icon">▲</div>
+        <div class="pbs-ph"></div>
+        <div class="pbs-lbl">Sai dep gieu</div>
+      </div>
+      <!-- Row 3: two stacked ▲ -->
+      <div class="pbs-cell">
+        <div class="pbs-icon"><span>▲</span><span>▲</span></div>
+        <div class="pbs-ph"></div>
+        <div class="pbs-lbl">Xinh va kho tan</div>
+      </div>
+      <!-- Row 4: single ▲ -->
+      <div class="pbs-cell">
+        <div class="pbs-icon">▲</div>
+        <div class="pbs-ph"></div>
+        <div class="pbs-lbl">Thao Linh</div>
+      </div>
+    </div>
+
+    <!-- CENTER DIVIDER -->
+    <div class="pbs-divider"></div>
+
+    <!-- RIGHT strip (identical structure) -->
+    <div class="pbs-strip-col">
+      <div class="pbs-cell">
+        <div class="pbs-icon"></div>
+        <div class="pbs-ph"></div>
+        <div class="pbs-lbl">Duong de tho</div>
+      </div>
+      <div class="pbs-cell">
+        <div class="pbs-icon">▲</div>
+        <div class="pbs-ph"></div>
+        <div class="pbs-lbl">Sai dep gieu</div>
+      </div>
+      <div class="pbs-cell">
+        <div class="pbs-icon"><span>▲</span><span>▲</span></div>
+        <div class="pbs-ph"></div>
+        <div class="pbs-lbl">Xinh va kho tan</div>
+      </div>
+      <div class="pbs-cell">
+        <div class="pbs-icon">▲</div>
+        <div class="pbs-ph"></div>
+        <div class="pbs-lbl">Thao Linh</div>
+      </div>
+    </div>
+  </div>
+  <p class="desc" style="margin-top:clamp(12px,1.8vh,20px)">
+    Tadaaaa photobooth nhà làm để sau này bạn có thể chụp với bạn bè gia đình cho tiện nè hoặc rủ anh Đức chụp chung 🫣
+  </p>
+  <div class="nav-row" style="width:clamp(280px,44vw,560px)">
+    <button class="btn" onclick="goto('f3','back')">Back</button>
+    <button class="btn" onclick="goto('f32','forward');startCamSession()">Next</button>
+  </div>
+</section>
+
+<!-- ══════════════════ FRAME 3.2 ── Camera ═══════════════ -->
+<section class="screen" id="f32">
+  <h2 class="section-title">Memory Storage</h2>
+  <div class="camera-wrap">
+    <!-- Timer options -->
+    <div class="timer-col">
+      <button class="timer-pill active" id="t3" onclick="setTimer(3,this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        3s
+      </button>
+      <button class="timer-pill" id="t5" onclick="setTimer(5,this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        5s
+      </button>
+      <button class="timer-pill" id="t10" onclick="setTimer(10,this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        10s
+      </button>
+    </div>
+    <!-- Camera view -->
+    <div class="cam-view" id="camView">
+      <video id="camVideo" autoplay playsinline muted></video>
+      <div class="cam-overlay" id="camOverlay"></div>
+      <div class="no-cam-msg" id="noCamMsg" style="display:none">
+        Camera không khả dụng.<br>Hãy cho phép truy cập camera để dùng photobooth 📷
+      </div>
+    </div>
+  </div>
+  <!-- Progress dots (4 photos) -->
+  <div class="dots" id="photoDots">
+    <div class="dot" id="dot0"></div>
+    <div class="dot" id="dot1"></div>
+    <div class="dot" id="dot2"></div>
+    <div class="dot" id="dot3"></div>
+  </div>
+  <!-- Controls -->
+  <div class="capture-btn">
+    <button class="btn" id="captureBtn" onclick="startCapture()">
+      <span style="display:flex;align-items:center;gap:7px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        Start Capture
+      </span>
+    </button>
+  </div>
+  <div class="retake-row">
+    <button class="btn ghost" onclick="retakeAll()">Retake</button>
+    <button class="btn" onclick="finishPhotobooth()">Next</button>
+  </div>
+  <div class="nav-row" style="width:clamp(280px,44vw,560px);margin-top:clamp(10px,1.5vh,18px)">
+    <button class="btn ghost" onclick="goto('f31','back');stopCam()">Back</button>
+    <div></div>
+  </div>
+</section>
+
+<!-- ══════════════════ FRAME 3.3 ── Photobooth result ════ -->
+<section class="screen" id="f33">
+  <h2 class="section-title">Memory Storage</h2>
+  <div class="pb-strip" id="strip-result">
+    <!-- Populated by JS -->
+    <!-- Row 1 -->
+    <div class="strip-cell"><div class="cell-img" id="r0c0"></div><div class="cell-label right">▲ Thượng đỉnh</div></div>
+    <div class="strip-cell"><div class="cell-label">▲ Thượng đỉnh</div><div class="cell-img" id="r0c1"></div></div>
+    <!-- Row 2 -->
+    <div class="strip-cell"><div class="cell-img" id="r1c0"></div><div class="cell-label right">⚑ Phá đảo game</div></div>
+    <div class="strip-cell"><div class="cell-label">⚑ Phá đảo game</div><div class="cell-img" id="r1c1"></div></div>
+    <!-- Row 3 -->
+    <div class="strip-cell"><div class="cell-img" id="r2c0"></div><div class="cell-label right">✦ Siêu cooldown</div></div>
+    <div class="strip-cell"><div class="cell-label">✦ Siêu cooldown</div><div class="cell-img" id="r2c1"></div></div>
+    <!-- Row 4 -->
+    <div class="strip-cell"><div class="cell-img" id="r3c0"></div><div class="cell-label right">♡ Lật thiên hạ</div></div>
+    <div class="strip-cell"><div class="cell-label">♡ Lật thiên hạ</div><div class="cell-img" id="r3c1"></div></div>
+  </div>
+  <p class="save-note">Lưu ảnh của bạn nhé! 📸</p>
+  <div class="nav-row" style="width:clamp(280px,44vw,560px)">
+    <button class="btn ghost" onclick="goto('f1','back');stopCam()">Home</button>
+    <button class="btn" onclick="saveStrip()">Save</button>
+  </div>
+</section>
+
+<!-- ══════════════════ FRAME 4.1 ── Playlist ═════════════ -->
+<section class="screen" id="f41">
+  <h2 class="section-title">Playlist</h2>
+  <p class="subtitle">A list of songs that remind me of you and carry my message for you</p>
+  <div class="player-layout">
+    <!-- Left: player -->
+    <div class="player-left">
+      <div style="display:flex;gap:clamp(10px,1.5vw,18px);align-items:center">
+        <div class="album-art" id="albumArt">
+          <img id="albumImg" src="duc1.JPG" alt="album art"
+            style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
+        </div>
+        <div class="song-info">
+          <div class="song-title-now" id="nowTitle">Miền Man</div>
+          <div class="singer-now" id="nowSinger">Minh Huy</div>
+        </div>
+      </div>
+      <div class="prog-wrap">
+        <span>Start</span>
+        <div class="prog-bar" id="progBar" onclick="seekSong(event)">
+          <div class="prog-fill" id="progFill"></div>
+          <div class="prog-thumb" id="progThumb"></div>
+        </div>
+        <span>End</span>
+      </div>
+      <div class="ctrl-row">
+        <button class="ctrl-btn" onclick="prevSong()" title="Previous">
+          <svg width="clamp(20px,2.4vw,30px)" height="clamp(20px,2.4vw,30px)" viewBox="0 0 24 24" fill="var(--pink)">
+            <polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="var(--pink)" stroke-width="2"/>
+          </svg>
+        </button>
+        <button class="ctrl-btn play" id="playBtn" onclick="togglePlay()">
+          <svg id="playIcon" width="clamp(18px,2vw,26px)" height="clamp(18px,2vw,26px)" viewBox="0 0 24 24" fill="var(--coral)">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          <svg id="pauseIcon" style="display:none" width="clamp(18px,2vw,26px)" height="clamp(18px,2vw,26px)" viewBox="0 0 24 24" fill="var(--coral)">
+            <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
+          </svg>
+        </button>
+        <button class="ctrl-btn" onclick="nextSong()" title="Next">
+          <svg width="clamp(20px,2.4vw,30px)" height="clamp(20px,2.4vw,30px)" viewBox="0 0 24 24" fill="var(--pink)">
+            <polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="var(--pink)" stroke-width="2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: playlist table -->
+    <div class="playlist-table">
+      <div class="pl-head"><span>Title</span><span>Singer</span></div>
+      <div class="pl-row playing" data-idx="0" onclick="selectSong(0)">
+        <span class="pl-title">Miền Man</span><span class="pl-singer">Minh Huy</span>
+      </div>
+      <div class="pl-row" data-idx="1" onclick="selectSong(1)">
+        <span class="pl-title">God Was Showing Off</span><span class="pl-singer">Bruno Mars</span>
+      </div>
+      <div class="pl-row" data-idx="2" onclick="selectSong(2)">
+        <span class="pl-title">Only U</span><span class="pl-singer">Hoang Ton</span>
+      </div>
+      <div class="pl-row" data-idx="3" onclick="selectSong(3)">
+        <span class="pl-title">Fallingforyou</span><span class="pl-singer">The 1975</span>
+      </div>
+      <div class="pl-row" data-idx="4" onclick="selectSong(4)">
+        <span class="pl-title">Dao Động</span><span class="pl-singer">1nG</span>
+      </div>
+      <div class="pl-row" data-idx="5" onclick="selectSong(5)">
+        <span class="pl-title">Soft Spot</span><span class="pl-singer">keshi</span>
+      </div>
+    </div>
+  </div>
+  <button class="btn" onclick="audio.pause();isPlaying=false;document.getElementById('playIcon').style.display='';document.getElementById('pauseIcon').style.display='none';goto('f3','back')">Home</button>
+</section>
+
+<!-- ══════════════════ FRAME 5.1 ── Write feelings ═══════ -->
+<section class="screen" id="f51">
+  <h2 class="section-title">Write your feelings</h2>
+  <div class="diary-box">
+    <!-- Lined background -->
+    <div class="diary-lines" aria-hidden="true">
+      <div class="diary-line"></div><div class="diary-line"></div>
+      <div class="diary-line"></div><div class="diary-line"></div>
+      <div class="diary-line"></div><div class="diary-line"></div>
+      <div class="diary-line"></div>
+    </div>
+    <textarea id="diaryText" placeholder="Viết gì đó đi..."></textarea>
+  </div>
+  <p class="hint">Chỗ để bạn viết ra những mệt nhọc trong ngày</p>
+  <p class="hint" style="font-size:clamp(10px,.95vw,12px);margin-top:clamp(4px,.6vh,8px);color:#aaa;">(những lời bạn viết sẽ không được lưu ở bất kì đâu vì anh Đức không biết cách làm)</p>
+  <div class="nav-row" style="width:clamp(280px,44vw,560px)">
+    <button class="btn ghost" onclick="goto('f3','back')">Back</button>
+    <button class="btn" onclick="saveDiary()">Next</button>
+  </div>
+</section>
+
+<!-- ══════════════════ MESSAGE ── After cooking ═══════════ -->
+<section class="screen" id="fMessage" style="overflow-y:auto;justify-content:flex-start;padding-top:clamp(30px,5vh,60px);padding-bottom:clamp(30px,5vh,60px);">
+  <img src="coolcat3.gif" alt="coolcat" style="width:clamp(100px,14vw,180px);aspect-ratio:1/1;object-fit:contain;border-radius:12px;margin-bottom:clamp(16px,2.5vh,28px);flex-shrink:0;">
+  <p style="
+    max-width: clamp(320px,52vw,680px);
+    font-size: clamp(13px,1.3vw,16px);
+    line-height: 1.85;
+    text-align: center;
+    color: var(--text);
+    margin-bottom: clamp(24px,3.5vh,40px);
+  ">
+    Toàn bộ nỗi lòng của bạn đã được mình cất kỹ ở một nơi rất an toàn rồi, không ai biết được đâu ^^. Dù tụi mình ở trong những hoàn cảnh khác nhau, suy nghĩ khác nhau, nhân sinh quan của mỗi người cũng khác nên có thể mình sẽ không thể cảm nhận được hết những gì bạn đã trải qua, nhưng mình vẫn mong rằng bạn sẽ luôn cảm thấy hạnh phúc với cuộc sống hiện tại, đủ mạnh mẽ để bước qua những ngày khó khăn và đủ kiên định để tiếp tục theo đuổi những điều mà mình thật sự mong muốn.<br><br>
+    Cuộc sống vốn lúc nào cũng lên xuống mà, sẽ có những ngày mọi thứ diễn ra không như ý, sẽ có những lúc bạn cảm thấy mệt mỏi hay lạc hướng. Nhưng mà <em>a bad day doesn't mean a bad life</em> á. Hãy tin rằng mọi biến cố rồi cũng sẽ qua đi, và mỗi lần vượt qua thử thách, bạn lại trở nên mạnh mẽ hơn, trưởng thành hơn nhé Linh &lt;3.<br><br>
+    Sau này nếu có gặp phải những điều bứt rứt trong lòng mà bạn không thể nói được với ai, bạn có thể viết lại ở đây để giải tỏa nhé.
+  </p>
+  <div style="display:flex;gap:clamp(12px,2vw,24px);">
+    <button class="btn ghost" onclick="goto('f3','back')">Back</button>
+    <button class="btn" onclick="goto('fMovies','forward')">Next</button>
+  </div>
+</section>
+
+<!-- ══════════════════ MOVIES ── Movie Suggestion ════════ -->
+<section class="screen" id="fMovies">
+  <h2 class="section-title">Movie Suggestion</h2>
+  <p style="font-size:clamp(12px,1.2vw,15px);color:var(--subtext);margin-bottom:clamp(20px,3.5vh,40px);text-align:center;">
+    đây là những bộ phim chữa lành đỉnh cực mà anh Đức hay coi
+  </p>
+  <div style="display:flex;gap:clamp(16px,3vw,40px);align-items:flex-start;justify-content:center;flex-wrap:wrap;">
+
+    <!-- Forrest Gump -->
+    <a href="https://rophimzz.online/xem-phim/forrest-gump" target="_blank" rel="noopener" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.2vh,14px);cursor:pointer;transition:transform .2s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
+      <img src="forrestgump.jpeg" alt="Forrest Gump" style="width:clamp(120px,16vw,200px);aspect-ratio:2/3;object-fit:cover;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15);">
+      <span style="font-size:clamp(12px,1.2vw,15px);font-weight:700;color:var(--text);text-align:center;">Forrest Gump</span>
+    </a>
+
+    <!-- Soul -->
+    <a href="https://phimmoir.app/phim/cuoc-song-nhiem-mau-1703770941/tap-1" target="_blank" rel="noopener" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.2vh,14px);cursor:pointer;transition:transform .2s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
+      <img src="soul.jpg" alt="Soul" style="width:clamp(120px,16vw,200px);aspect-ratio:2/3;object-fit:cover;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15);">
+      <span style="font-size:clamp(12px,1.2vw,15px);font-weight:700;color:var(--text);text-align:center;">Soul</span>
+    </a>
+
+    <!-- The Terminal -->
+    <a href="https://rophimzz.online/phim/khong-to-quoc" target="_blank" rel="noopener" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.2vh,14px);cursor:pointer;transition:transform .2s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''">
+      <img src="theterminal.jpg" alt="The Terminal" style="width:clamp(120px,16vw,200px);aspect-ratio:2/3;object-fit:cover;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15);">
+      <span style="font-size:clamp(12px,1.2vw,15px);font-weight:700;color:var(--text);text-align:center;">The Terminal</span>
+    </a>
+
+  </div>
+  <div style="display:flex;gap:clamp(12px,2vw,24px);margin-top:clamp(24px,4vh,44px);">
+    <button class="btn ghost" onclick="goto('fMessage','back')">Back</button>
+    <button class="btn" onclick="goto('f3','forward')">Home</button>
+  </div>
+</section>
+
+<!-- ══════════════════ COOKING ── Loading screen ══════════ -->
+<section class="screen" id="fCooking">
+  <img src="coolcat2.gif" alt="cooking" style="width:clamp(180px,28vw,340px);aspect-ratio:1/1;object-fit:contain;margin-bottom:clamp(16px,2.5vh,30px);border-radius:12px;">
+  <p style="font-size:clamp(20px,2.8vw,36px);font-weight:700;color:var(--coral);display:flex;align-items:center;gap:.15em;">
+    cooking
+    <span class="dot-bounce" style="animation-delay:0s">.</span>
+    <span class="dot-bounce" style="animation-delay:.2s">.</span>
+    <span class="dot-bounce" style="animation-delay:.4s">.</span>
+  </p>
+</section>
+
+</div><!-- #app -->
+
+<script>
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+function goto(id, dir) {
+  const current = document.querySelector('.screen.active');
+  const next    = document.getElementById(id);
+  if (!next || next === current) return;
+
+  const outCls = dir === 'back' ? 'anim-out-right' : 'anim-out-left';
+  const inCls  = dir === 'back' ? 'anim-in-left'   : 'anim-in-right';
+
+  current.classList.add(outCls);
+  next.style.opacity = '1';
+  next.classList.add('active', inCls);
+
+  setTimeout(() => {
+    current.classList.remove('active', outCls);
+    current.style.opacity = '';
+    next.classList.remove(inCls);
+    if (id === 'f2') resetRunBtn();
+  }, 460);
+}
+
+/* ══════════════════════════════════════
+   RUNAWAY BUTTON (Frame 2)
+   Sits still at natural position on enter;
+   flees across full screen on mousemove.
+══════════════════════════════════════ */
+const RUN_RADIUS = 220;
+const RUN_PAD    = 12;
+
+function resetRunBtn() {
+  const btn    = document.getElementById('runBtn');
+  const anchor = document.getElementById('runAnchor');
+  if (!btn || !anchor) return;
+  const r = anchor.getBoundingClientRect();
+  btn.style.transition = 'none';
+  btn.style.left = r.left + 'px';
+  btn.style.top  = r.top  + 'px';
+  // re-enable transition after the snap
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    btn.style.transition = 'left .15s ease, top .15s ease';
+  }));
+}
+
+document.addEventListener('mousemove', function (e) {
+  const btn = document.getElementById('runBtn');
+  if (!btn) return;
+  if (!document.getElementById('f2').classList.contains('active')) return;
+
+  const r    = btn.getBoundingClientRect();
+  const cx   = r.left + r.width  / 2;
+  const cy   = r.top  + r.height / 2;
+  const dx   = e.clientX - cx;
+  const dy   = e.clientY - cy;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist > RUN_RADIUS) return;
+
+  const angle = Math.atan2(dy, dx);
+  const force = (RUN_RADIUS - dist) * 3.8;
+
+  let newL = parseFloat(btn.style.left) - Math.cos(angle) * force;
+  let newT = parseFloat(btn.style.top)  - Math.sin(angle) * force;
+
+  newL = Math.max(RUN_PAD, Math.min(newL, window.innerWidth  - r.width  - RUN_PAD));
+  newT = Math.max(RUN_PAD, Math.min(newT, window.innerHeight - r.height - RUN_PAD));
+
+  btn.style.left = newL + 'px';
+  btn.style.top  = newT + 'px';
+});
+
+/* ══════════════════════════════════════
+   GIFT BOX OPEN
+══════════════════════════════════════ */
+const giftDests = { 1: 'f31', 2: 'f41', 3: 'f51' };
+
+function openGift(n) {
+  const card = document.getElementById('gc' + n);
+  card.classList.add('opened');
+
+  // little bounce anim
+  card.style.transition = 'transform .12s';
+  card.style.transform  = 'scale(1.15) translateY(-8px)';
+  setTimeout(() => { card.style.transform = ''; }, 160);
+
+  const dest = giftDests[n];
+  setTimeout(() => {
+    goto(dest, 'forward');
+    if (dest === 'f41') initPlaylist();
+  }, 220);
+}
+
+/* ══════════════════════════════════════
+   CAMERA / PHOTOBOOTH
+══════════════════════════════════════ */
+let camStream   = null;
+let photosList  = [];     // array of dataURL (max 4)
+let timerDelay  = 3;
+let capturing   = false;
+
+async function startCamSession() {
+  const video     = document.getElementById('camVideo');
+  const noCamMsg  = document.getElementById('noCamMsg');
+  noCamMsg.style.display = 'none';
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode:'user' }, audio: false });
+    video.srcObject = camStream;
+    await video.play();
+  } catch (e) {
+    video.style.display = 'none';
+    noCamMsg.style.display = 'flex';
+  }
+}
+
+function stopCam() {
+  if (camStream) {
+    camStream.getTracks().forEach(t => t.stop());
+    camStream = null;
+    const video = document.getElementById('camVideo');
+    video.srcObject = null;
+    video.style.display = '';
+    document.getElementById('noCamMsg').style.display = 'none';
+  }
+}
+
+function setTimer(val, el) {
+  timerDelay = val;
+  document.querySelectorAll('.timer-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+async function startCapture() {
+  if (capturing || photosList.length >= 4) return;
+  capturing = true;
+
+  const overlay    = document.getElementById('camOverlay');
+  const captureBtn = document.getElementById('captureBtn');
+  captureBtn.disabled = true;
+
+  let count = timerDelay;
+  overlay.textContent = count;
+  overlay.classList.add('show');
+
+  await new Promise(resolve => {
+    const interval = setInterval(() => {
+      count--;
+      if (count > 0) {
+        overlay.textContent = count;
+      } else {
+        clearInterval(interval);
+        overlay.textContent = '📸';
+        setTimeout(() => {
+          overlay.classList.remove('show');
+          resolve();
+        }, 420);
+      }
+    }, 1000);
+  });
+
+  // Snap
+  const photo = snapPhoto();
+  if (photo) {
+    photosList.push(photo);
+    updateDots();
+  }
+
+  capturing = false;
+  captureBtn.disabled = false;
+}
+
+function snapPhoto() {
+  const video = document.getElementById('camVideo');
+  if (!video.videoWidth) return null;
+  const canvas = document.createElement('canvas');
+  canvas.width  = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.translate(canvas.width, 0);
+  ctx.scale(-1, 1); // mirror
+  ctx.drawImage(video, 0, 0);
+  return canvas.toDataURL('image/jpeg', 0.88);
+}
+
+function updateDots() {
+  for (let i = 0; i < 4; i++) {
+    const d = document.getElementById('dot' + i);
+    d.classList.toggle('on', i < photosList.length);
+  }
+}
+
+function retakeAll() {
+  photosList = [];
+  updateDots();
+}
+
+function finishPhotobooth() {
+  buildResultStrip();
+  goto('f33', 'forward');
+}
+
+function buildResultStrip() {
+  for (let row = 0; row < 4; row++) {
+    const dataURL = photosList[row] || null;
+    ['c0','c1'].forEach(col => {
+      const cell = document.getElementById(`r${row}${col}`);
+      cell.innerHTML = '';
+      if (dataURL) {
+        const img = document.createElement('img');
+        img.src = dataURL;
+        cell.appendChild(img);
+      }
+    });
+  }
+}
+
+function saveStrip() {
+  if (photosList.length === 0) { alert('Chụp ảnh trước đã nhé! 📷'); return; }
+
+  const cellW = 160, cellH = 110;
+  const cols = 2, rows = 4;
+  const gap = 6, pad = 12;
+  const canvasW = pad*2 + cols*cellW + gap*(cols-1);
+  const canvasH = pad*2 + rows*cellH + gap*(rows-1);
+
+  const canvas = document.createElement('canvas');
+  canvas.width  = canvasW;
+  canvas.height = canvasH;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, canvasW, canvasH);
+
+  const imgs = photosList.map(src => {
+    const img = new Image();
+    img.src = src;
+    return img;
+  });
+
+  const allLoaded = imgs.map(img => new Promise(r => {
+    if (img.complete) r(); else img.onload = r;
+  }));
+
+  Promise.all(allLoaded).then(() => {
+    for (let col = 0; col < cols; col++) {
+      for (let row = 0; row < rows; row++) {
+        const x = pad + col*(cellW+gap);
+        const y = pad + row*(cellH+gap);
+        ctx.fillStyle = '#D4D4D4';
+        ctx.fillRect(x, y, cellW, cellH);
+        const img = imgs[row];
+        if (img && img.naturalWidth) {
+          const iRatio = img.naturalWidth  / img.naturalHeight;
+          const cRatio = cellW / cellH;
+          let sw, sh, sx, sy;
+          if (iRatio > cRatio) {
+            sh = img.naturalHeight;
+            sw = sh * cRatio;
+            sx = (img.naturalWidth - sw) / 2;
+            sy = 0;
+          } else {
+            sw = img.naturalWidth;
+            sh = sw / cRatio;
+            sx = 0;
+            sy = (img.naturalHeight - sh) / 2;
+          }
+          ctx.drawImage(img, sx, sy, sw, sh, x, y, cellW, cellH);
+        }
+      }
+    }
+    const a = document.createElement('a');
+    a.href     = canvas.toDataURL('image/jpeg', 0.92);
+    a.download = 'memory-storage-thaolinhxduc.jpg';
+    a.click();
+  });
+}
+
+/* ══════════════════════════════════════
+   PLAYLIST  (real audio via <audio>)
+══════════════════════════════════════ */
+const songs = [
+  { title: 'Miền Man',            singer: 'Minh Huy',  src: 'mien-man.webm',            img: 'duc1.JPG' },
+  { title: 'God Was Showing Off',  singer: 'Bruno Mars', src: 'god-was-showing-off.webm', img: 'duc2.PNG' },
+  { title: 'Only U',              singer: 'Hoang Ton',  src: 'only-u.webm',              img: 'duc3.PNG', startAt: 13 },
+  { title: 'Fallingforyou',       singer: 'The 1975',   src: 'fallingforyou.webm',       img: 'duc4.jpg' },
+  { title: 'Dao Động',            singer: '1nG',        src: 'dao-dong.webm',            img: 'duc5.JPG' },
+  { title: 'Soft Spot',           singer: 'keshi',      src: 'soft-spot.webm',           img: 'duc6.jpg' },
+];
+
+const audio       = new Audio();
+let currentSong   = 0;
+let isPlaying     = false;
+
+function initPlaylist() {
+  audio.addEventListener('timeupdate', onTimeUpdate);
+  audio.addEventListener('ended', nextSong);
+  selectSong(0);
+}
+
+function selectSong(idx) {
+  const wasPlaying = isPlaying;
+  currentSong = idx;
+
+  audio.pause();
+  audio.src = songs[idx].src;
+  audio.load();
+  if (songs[idx].startAt) {
+    audio.addEventListener('loadedmetadata', () => { audio.currentTime = songs[idx].startAt; }, { once: true });
+  }
+
+  document.getElementById('nowTitle').textContent  = songs[idx].title;
+  document.getElementById('nowSinger').textContent = songs[idx].singer;
+  document.getElementById('albumImg').src          = songs[idx].img;
+  updateProg(0);
+
+  document.querySelectorAll('.pl-row').forEach((row, i) => {
+    row.classList.toggle('playing', i === idx);
+  });
+
+  if (wasPlaying) {
+    audio.play().catch(() => {});
+  }
+}
+
+function togglePlay() {
+  if (audio.paused) {
+    audio.play().catch(() => {});
+    isPlaying = true;
+  } else {
+    audio.pause();
+    isPlaying = false;
+  }
+  document.getElementById('playIcon').style.display  = isPlaying ? 'none' : '';
+  document.getElementById('pauseIcon').style.display = isPlaying ? ''     : 'none';
+}
+
+function onTimeUpdate() {
+  if (!audio.duration) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  updateProg(pct);
+}
+
+function updateProg(val) {
+  document.getElementById('progFill').style.width = val + '%';
+  document.getElementById('progThumb').style.left = val + '%';
+}
+
+function seekSong(e) {
+  if (!audio.duration) return;
+  const bar  = document.getElementById('progBar');
+  const rect = bar.getBoundingClientRect();
+  const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  audio.currentTime = pct * audio.duration;
+  updateProg(pct * 100);
+}
+
+function prevSong() { selectSong((currentSong - 1 + songs.length) % songs.length); }
+function nextSong()  { selectSong((currentSong + 1) % songs.length); }
+
+/* ══════════════════════════════════════
+   DIARY / WRITE FEELINGS
+══════════════════════════════════════ */
+function saveDiary() {
+  const text = document.getElementById('diaryText').value.trim();
+  if (text) {
+    try { localStorage.setItem('thaolinhDiary_' + Date.now(), text); } catch(e) {}
+  }
+  goto('fCooking', 'forward');
+  setTimeout(() => goto('fMessage', 'forward'), 2800);
+}
+</script>
+</body>
+</html>
