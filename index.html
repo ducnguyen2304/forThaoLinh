@@ -794,22 +794,57 @@ body {
 <!-- ══════════════════ FRAME 3.3 ── Photobooth result ════ -->
 <section class="screen" id="f33">
   <h2 class="section-title">Memory Storage</h2>
-  <div class="pb-strip" id="strip-result">
-    <!-- Populated by JS -->
-    <!-- Row 1 -->
-    <div class="strip-cell"><div class="cell-img" id="r0c0"></div><div class="cell-label right">▲ Thượng đỉnh</div></div>
-    <div class="strip-cell"><div class="cell-label">▲ Thượng đỉnh</div><div class="cell-img" id="r0c1"></div></div>
-    <!-- Row 2 -->
-    <div class="strip-cell"><div class="cell-img" id="r1c0"></div><div class="cell-label right">⚑ Phá đảo game</div></div>
-    <div class="strip-cell"><div class="cell-label">⚑ Phá đảo game</div><div class="cell-img" id="r1c1"></div></div>
-    <!-- Row 3 -->
-    <div class="strip-cell"><div class="cell-img" id="r2c0"></div><div class="cell-label right">✦ Siêu cooldown</div></div>
-    <div class="strip-cell"><div class="cell-label">✦ Siêu cooldown</div><div class="cell-img" id="r2c1"></div></div>
-    <!-- Row 4 -->
-    <div class="strip-cell"><div class="cell-img" id="r3c0"></div><div class="cell-label right">♡ Lật thiên hạ</div></div>
-    <div class="strip-cell"><div class="cell-label">♡ Lật thiên hạ</div><div class="cell-img" id="r3c1"></div></div>
+  <div class="pbs-wrap">
+    <!-- LEFT strip -->
+    <div class="pbs-strip-col">
+      <div class="pbs-cell">
+        <div class="pbs-icon"></div>
+        <div class="pbs-ph" id="r0c0"></div>
+        <div class="pbs-lbl">Duong de tho</div>
+      </div>
+      <div class="pbs-cell">
+        <div class="pbs-icon">▲</div>
+        <div class="pbs-ph" id="r1c0"></div>
+        <div class="pbs-lbl">Sai dep gieu</div>
+      </div>
+      <div class="pbs-cell">
+        <div class="pbs-icon"><span>▲</span><span>▲</span></div>
+        <div class="pbs-ph" id="r2c0"></div>
+        <div class="pbs-lbl">Xinh va kho tan</div>
+      </div>
+      <div class="pbs-cell">
+        <div class="pbs-icon">▲</div>
+        <div class="pbs-ph" id="r3c0"></div>
+        <div class="pbs-lbl">Thao Linh</div>
+      </div>
+    </div>
+    <!-- CENTER DIVIDER -->
+    <div class="pbs-divider"></div>
+    <!-- RIGHT strip -->
+    <div class="pbs-strip-col">
+      <div class="pbs-cell">
+        <div class="pbs-icon"></div>
+        <div class="pbs-ph" id="r0c1"></div>
+        <div class="pbs-lbl">Duong de tho</div>
+      </div>
+      <div class="pbs-cell">
+        <div class="pbs-icon">▲</div>
+        <div class="pbs-ph" id="r1c1"></div>
+        <div class="pbs-lbl">Sai dep gieu</div>
+      </div>
+      <div class="pbs-cell">
+        <div class="pbs-icon"><span>▲</span><span>▲</span></div>
+        <div class="pbs-ph" id="r2c1"></div>
+        <div class="pbs-lbl">Xinh va kho tan</div>
+      </div>
+      <div class="pbs-cell">
+        <div class="pbs-icon">▲</div>
+        <div class="pbs-ph" id="r3c1"></div>
+        <div class="pbs-lbl">Thao Linh</div>
+      </div>
+    </div>
   </div>
-  <p class="save-note">Lưu ảnh của bạn nhé! 📸</p>
+  <p class="save-note">trông sai vãi đính đúng là bản thiết kế vĩ đại 😎</p>
   <div class="nav-row" style="width:clamp(280px,44vw,560px)">
     <button class="btn ghost" onclick="goto('f1','back');stopCam()">Home</button>
     <button class="btn" onclick="saveStrip()">Save</button>
@@ -1187,6 +1222,7 @@ function buildResultStrip() {
       if (dataURL) {
         const img = document.createElement('img');
         img.src = dataURL;
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:3px;display:block';
         cell.appendChild(img);
       }
     });
